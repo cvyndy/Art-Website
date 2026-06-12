@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Slide = {
   name: string;
@@ -16,6 +16,48 @@ type Showcase = {
   button: string;
   slides: Slide[];
 };
+
+function RevealOnView({ children }: { children: React.ReactNode }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const node = containerRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.2,
+      },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`transition-all duration-700 ease-out ${
+        isVisible
+          ? "translate-x-0 opacity-100"
+          : "translate-x-10 opacity-0"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
 
 function SwipeCarousel({ slides, label }: { slides: Slide[]; label: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -257,7 +299,12 @@ export default function Home() {
                 </div>
 
                 <div className={imageOnLeft ? "lg:order-1" : "lg:order-2"}>
-                  <SwipeCarousel slides={showcase.slides} label={showcase.title} />
+                  <RevealOnView>
+                    <SwipeCarousel
+                      slides={showcase.slides}
+                      label={showcase.title}
+                    />
+                  </RevealOnView>
                 </div>
               </article>
             );
