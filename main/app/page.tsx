@@ -87,8 +87,61 @@ function SwipeCarousel({ slides, label }: { slides: Slide[]; label: string }) {
     setTouchStart(null);
   };
 
+  const flowerBursts = {
+    topRight: [
+      { symbol: "✿", className: "right-8 top-2 text-[1.5rem] text-[#76add8]" },
+      { symbol: "❀", className: "right-0 top-10 text-[1.15rem] text-[#9bcdf0]" },
+      { symbol: "✼", className: "right-16 top-11 text-[0.95rem] text-[#5f95c6]" },
+      { symbol: "•", className: "right-12 top-0 text-[0.8rem] text-[#cfe8fb]" },
+    ],
+    bottomLeft: [
+      { symbol: "✿", className: "bottom-3 left-8 text-[1.35rem] text-[#8fc4ea]" },
+      { symbol: "❀", className: "bottom-11 left-0 text-[1.1rem] text-[#6fa8d6]" },
+      { symbol: "✼", className: "bottom-0 left-16 text-[0.95rem] text-[#4f86bb]" },
+      { symbol: "•", className: "bottom-12 left-12 text-[0.8rem] text-[#d8efff]" },
+    ],
+  };
+
   return (
-    <div className="overflow-hidden rounded-[1.8rem] border border-[#9fd0f2] bg-white p-4 shadow-[0_0_0_3px_rgba(211,236,255,0.9)]">
+    <div className="relative overflow-visible rounded-[1.8rem] border border-[#9fd0f2] bg-white p-4 shadow-[0_0_0_3px_rgba(211,236,255,0.9)]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-5 -top-5 z-10 h-24 w-24"
+      >
+        {flowerBursts.topRight.map((burst, index) => (
+          <span
+            key={`top-right-${burst.symbol}-${index}`}
+            className={`absolute inline-block drop-shadow-[0_4px_10px_rgba(255,255,255,0.85)] ${burst.className}`}
+            style={{
+              animation: "floatPetal 5.5s ease-in-out infinite",
+              animationDelay: `${index * 0.5}s`,
+              willChange: "transform, opacity",
+            }}
+          >
+            {burst.symbol}
+          </span>
+        ))}
+      </div>
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-5 -left-5 z-10 h-24 w-24"
+      >
+        {flowerBursts.bottomLeft.map((burst, index) => (
+          <span
+            key={`bottom-left-${burst.symbol}-${index}`}
+            className={`absolute inline-block drop-shadow-[0_4px_10px_rgba(255,255,255,0.85)] ${burst.className}`}
+            style={{
+              animation: "floatPetal 6s ease-in-out infinite",
+              animationDelay: `${index * 0.45}s`,
+              willChange: "transform, opacity",
+            }}
+          >
+            {burst.symbol}
+          </span>
+        ))}
+      </div>
+
       <div
         className="relative overflow-hidden rounded-[1.5rem]"
         onTouchStart={handleTouchStart}
@@ -159,6 +212,24 @@ function SwipeCarousel({ slides, label }: { slides: Slide[]; label: string }) {
           />
         ))}
       </div>
+
+      <style jsx global>{`
+        @keyframes floatPetal {
+          0%,
+          100% {
+            transform: translate3d(0, 0, 0);
+            opacity: 0.82;
+          }
+          50% {
+            transform: translate3d(0, -6px, 0);
+            opacity: 1;
+          }
+          75% {
+            transform: translate3d(2px, -3px, 0);
+            opacity: 0.92;
+          }
+        }
+      `}</style>
     </div>
   );
 }
@@ -168,10 +239,10 @@ export default function Home() {
   // for example: imageSrc: "/images/soft-bloom-1.jpg"
   const showcases: Showcase[] = [
     {
-      title: "Soft Bloom Prints",
+      title: "Ashley DUCK Lin",
       description:
-        "A dreamy set of flower-forward prints with gentle color palettes for desks, bedrooms, and gallery walls.",
-      button: "Shop here",
+        "A little duck gallery with bright personality, goofy charm, and soft blue tones all the way through.",
+      button: "Check it out <3",
       slides: [
         {
           name: "Rose hush",
@@ -194,41 +265,53 @@ export default function Home() {
       ],
     },
     {
-      title: "Custom Gift Sets",
+      title: "Nicole OTTER Mendo",
       description:
-        "Personalized art bundles designed for birthdays, thank-you gifts, and little keepsakes with a handmade feel.",
-      button: "Shop here",
+        "A cozy set of otter snapshots that feels playful, sweet, and just a little bit chaotic in the best way.",
+      button: "Check It out ;)",
       slides: [
         {
           name: "Ribbon bundle",
+          imageSrc: "/otter.jpg",
+          imageAlt: "Custom Gift Sets image one",
           colors: "from-[#e4f4ff] via-[#f4fbff] to-[#ffffff]",
         },
         {
           name: "Mini card set",
+          imageSrc: "/otter2.jpg",
+          imageAlt: "Custom Gift Sets image two",
           colors: "from-[#d8ecff] via-[#edf7ff] to-[#ffffff]",
         },
         {
           name: "Wrapped note",
+          imageSrc: "/otter3.jpg",
+          imageAlt: "Custom Gift Sets image three",
           colors: "from-[#d8f1eb] via-[#eefbf7] to-[#ffffff]",
         },
       ],
     },
     {
-      title: "Tiny Canvas Originals",
+      title: "Cindy BIRB Vuong",
       description:
-        "Small original pieces with airy blue tones and soft details that feel special on shelves, nooks, and side tables.",
-      button: "Shop here",
+        "A tiny bird collection full of soft fluff, curious stares, and main-character energy.",
+      button: "Check it out :D",
       slides: [
         {
           name: "Sky study",
+          imageSrc: "/birb1.jpg",
+          imageAlt: "Tiny Canvas Originals image one",
           colors: "from-[#d8eaff] via-[#edf5ff] to-[#ffffff]",
         },
         {
           name: "Cloud frame",
+          imageSrc: "/birb2.jpg",
+          imageAlt: "Tiny Canvas Originals image two",
           colors: "from-[#dff3ff] via-[#f1f9ff] to-[#ffffff]",
         },
         {
           name: "Quiet lake",
+          imageSrc: "/birb3.jpg",
+          imageAlt: "Tiny Canvas Originals image three",
           colors: "from-[#dff4f2] via-[#effcf9] to-[#ffffff]",
         },
       ],
@@ -283,6 +366,13 @@ export default function Home() {
                       : "lg:order-1 lg:items-end lg:justify-self-end lg:text-right"
                   }`}
                 >
+                  <h2
+                    className={`max-w-md font-[family-name:var(--font-display)] text-[1.7rem] leading-snug text-[#3f6783] sm:text-[2rem] ${
+                      textOnRight ? "" : "lg:ml-auto"
+                    }`}
+                  >
+                    {showcase.title}
+                  </h2>
                   <p
                     className={`max-w-md text-base leading-8 text-[#5f798e] sm:text-lg ${
                       textOnRight ? "" : "lg:ml-auto"
