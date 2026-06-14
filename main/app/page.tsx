@@ -217,6 +217,50 @@ function SwipeCarousel({ slides, label }: { slides: Slide[]; label: string }) {
 }
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const welcomeText = "Welcome to Our Shop";
+  const [typedWelcome, setTypedWelcome] = useState("");
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  useEffect(() => {
+    let currentIndex = 0;
+
+    setTypedWelcome("");
+
+    const interval = window.setInterval(() => {
+      currentIndex += 1;
+      setTypedWelcome(welcomeText.slice(0, currentIndex));
+
+      if (currentIndex >= welcomeText.length) {
+        window.clearInterval(interval);
+      }
+    }, 70);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   // Add your own images by setting imageSrc to a file path from `public/`,
   // for example: imageSrc: "/images/soft-bloom-1.jpg"
   const showcases: Showcase[] = [
@@ -300,13 +344,26 @@ export default function Home() {
     },
   ];
 
+  const menuItems = [
+    { label: "Welcome", href: "#", current: true },
+    { label: "Shop 1", href: "#" },
+    { label: "Shop 2", href: "#" },
+    { label: "Shop 3", href: "#" },
+    { label: "About Us", href: "#" },
+  ];
+
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#f4fbff_0%,#fcfeff_100%)] px-4 py-4 sm:px-6 sm:py-6">
       <div className="mx-auto min-h-[92vh] max-w-7xl px-2 py-2 sm:px-4 sm:py-3">
         <header className="flex items-center justify-between gap-6 px-3 py-2 sm:px-4">
           <div className="flex items-center gap-4 sm:gap-5">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#bfd8eb] bg-[radial-gradient(circle_at_30%_30%,#ffffff_0%,#dcedff_100%)] text-[1.35rem] text-[#365066] shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] sm:h-14 sm:w-14 sm:text-[1.5rem]">
-              ✿
+            <div className="relative h-14 w-14 overflow-hidden rounded-full border border-[#bfd8eb] bg-[radial-gradient(circle_at_30%_30%,#ffffff_0%,#dcedff_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] sm:h-16 sm:w-16">
+              <Image
+                src="/icon.jpg"
+                alt="Shop icon"
+                fill
+                className="object-cover"
+              />
             </div>
             <div className="min-w-0">
               <p className="font-[family-name:var(--font-display)] text-2xl leading-none text-[#2c5068] sm:text-3xl">
@@ -318,20 +375,59 @@ export default function Home() {
             </div>
           </div>
 
-          <button
-            type="button"
-            aria-label="Open menu"
-            className="group flex h-12 w-12 items-center justify-center rounded-full transition hover:bg-white/50"
-          >
-            <span className="flex flex-col items-end gap-[5px]">
-              <span className="block h-[2px] w-6 rounded-full bg-[#365066] transition group-hover:w-5" />
-              <span className="block h-[2px] w-8 rounded-full bg-[#365066]" />
-              <span className="block h-[2px] w-6 rounded-full bg-[#365066] transition group-hover:w-7" />
-            </span>
-          </button>
+          <div ref={menuRef} className="relative">
+            <button
+              type="button"
+              aria-label="Open menu"
+              aria-expanded={isMenuOpen}
+              aria-haspopup="menu"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              className="group flex h-12 w-12 items-center justify-center rounded-full transition hover:bg-white/50"
+            >
+              <span className="flex flex-col items-end gap-[5px]">
+                <span className="block h-[2px] w-6 rounded-full bg-[#365066] transition group-hover:w-5" />
+                <span className="block h-[2px] w-8 rounded-full bg-[#365066]" />
+                <span className="block h-[2px] w-6 rounded-full bg-[#365066] transition group-hover:w-7" />
+              </span>
+            </button>
+
+            {isMenuOpen ? (
+              <div
+                role="menu"
+                aria-label="Site navigation"
+                className="absolute right-0 top-14 z-20 min-w-[12rem] rounded-[1.4rem] border border-[#bdd7ec] bg-white/95 p-2 shadow-[0_20px_40px_rgba(159,193,218,0.28)] backdrop-blur-sm"
+              >
+                {menuItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    role="menuitem"
+                    aria-current={item.current ? "page" : undefined}
+                    className={`flex items-center justify-between rounded-[1rem] px-4 py-3 text-sm transition ${
+                      item.current
+                        ? "bg-[#e8f4ff] font-semibold text-[#2c5068]"
+                        : "text-[#57758f] hover:bg-[#f4faff] hover:text-[#2c5068]"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {item.current ? (
+                      <span className="text-xs uppercase tracking-[0.18em] text-[#7ea6c4]">
+                        Here
+                      </span>
+                    ) : null}
+                  </a>
+                ))}
+              </div>
+            ) : null}
+          </div>
         </header>
 
-        <section className="mt-10 space-y-10 sm:mt-14 sm:space-y-12">
+        <section className="mt-10 sm:mt-14">
+          <h1 className="mb-8 min-h-[2.8rem] text-center font-[family-name:var(--font-display)] text-[2rem] leading-none text-[#3f6783] sm:mb-10 sm:min-h-[3.4rem] sm:text-[2.5rem]">
+            {typedWelcome}
+          </h1>
+
+          <div className="space-y-10 sm:space-y-12">
           {showcases.map((showcase, index) => {
             const imageOnLeft = index % 2 === 0;
             const textOnRight = imageOnLeft;
@@ -381,6 +477,7 @@ export default function Home() {
               </article>
             );
           })}
+          </div>
         </section>
       </div>
     </main>
