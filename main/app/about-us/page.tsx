@@ -86,9 +86,13 @@ export default function AboutUsPage() {
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#f4fbff_0%,#fcfeff_100%)] px-4 py-4 sm:px-6 sm:py-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_16%,rgba(184,220,245,0.45),transparent_22%),radial-gradient(circle_at_85%_18%,rgba(210,234,250,0.72),transparent_18%),radial-gradient(circle_at_18%_78%,rgba(222,241,252,0.7),transparent_20%),radial-gradient(circle_at_82%_82%,rgba(191,223,244,0.44),transparent_18%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:radial-gradient(rgba(126,166,196,0.16)_1.2px,transparent_1.2px)] [background-size:24px_24px]" />
+    <main className="relative min-h-screen overflow-hidden bg-[#eef7ff] px-4 py-4 sm:px-6 sm:py-6">
+      <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(124,160,186,0.16)_31px,rgba(124,160,186,0.16)_32px)]" />
+      <div className="pointer-events-none absolute inset-y-0 left-[11%] w-[2px] bg-[rgba(152,186,214,0.36)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(126,166,196,0.12)_0.8px,transparent_0.8px)] [background-size:18px_18px]" />
+      <div className="pointer-events-none absolute left-8 top-28 rotate-[-10deg] text-[1.6rem] text-[#9bbfe0]">✿</div>
+      <div className="pointer-events-none absolute right-10 top-40 rotate-[8deg] text-[1.1rem] text-[#87a9bf]">❀</div>
+      <div className="pointer-events-none absolute bottom-24 right-14 rotate-[-8deg] text-[1.3rem] text-[#b3d3ec]">✿</div>
 
       <div className="relative mx-auto min-h-[92vh] max-w-7xl px-2 py-2 sm:px-4 sm:py-3">
         <header className="flex items-center justify-between gap-6 px-3 py-2 sm:px-4">
@@ -167,8 +171,9 @@ export default function AboutUsPage() {
             {people.map((person) => (
               <article
                 key={person.name}
-                className="rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(244,250,255,0.72))] p-6 text-center shadow-[0_14px_30px_rgba(188,214,233,0.16)] backdrop-blur-sm"
+                className="relative rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 text-center shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
               >
+                <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
                 <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-[#d8ecff] shadow-[0_12px_24px_rgba(176,208,230,0.2)]">
                   <Image
                     src={person.imageSrc}
@@ -189,7 +194,8 @@ export default function AboutUsPage() {
             ))}
           </div>
 
-          <div className="mt-12 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(245,251,255,0.74))] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] backdrop-blur-sm sm:mt-14 sm:p-8">
+          <div className="relative mt-12 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:mt-14 sm:p-8">
+            <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
             <h2 className="text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
               Q&amp;A
             </h2>
@@ -198,7 +204,7 @@ export default function AboutUsPage() {
               {faqItems.map((item) => (
                 <article
                   key={item.question}
-                  className="rounded-[1.5rem] border border-[#d5e8f6] bg-[linear-gradient(180deg,#fcfeff_0%,#f4faff_100%)] px-5 py-4"
+                  className="rounded-[1.5rem] border border-[#d5e8f6] bg-[#f9fcff] px-5 py-4"
                 >
                   <h3 className="text-lg font-semibold text-[#2c5068]">
                     {item.question}
