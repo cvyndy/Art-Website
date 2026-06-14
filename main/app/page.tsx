@@ -212,24 +212,6 @@ function SwipeCarousel({ slides, label }: { slides: Slide[]; label: string }) {
           />
         ))}
       </div>
-
-      <style jsx global>{`
-        @keyframes floatPetal {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0);
-            opacity: 0.82;
-          }
-          50% {
-            transform: translate3d(0, -6px, 0);
-            opacity: 1;
-          }
-          75% {
-            transform: translate3d(2px, -3px, 0);
-            opacity: 0.92;
-          }
-        }
-      `}</style>
     </div>
   );
 }
