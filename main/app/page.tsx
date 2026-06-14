@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type Slide = {
@@ -345,11 +346,11 @@ export default function Home() {
   ];
 
   const menuItems = [
-    { label: "Welcome", href: "#", current: true },
+    { label: "Welcome", href: "/", current: true },
     { label: "Shop 1", href: "#" },
     { label: "Shop 2", href: "#" },
     { label: "Shop 3", href: "#" },
-    { label: "About Us", href: "#" },
+    { label: "About Us", href: "/about-us" },
   ];
 
   return (
@@ -398,7 +399,7 @@ export default function Home() {
                 className="absolute right-0 top-14 z-20 min-w-[12rem] rounded-[1.4rem] border border-[#bdd7ec] bg-white/95 p-2 shadow-[0_20px_40px_rgba(159,193,218,0.28)] backdrop-blur-sm"
               >
                 {menuItems.map((item) => (
-                  <a
+                  <Link
                     key={item.label}
                     href={item.href}
                     role="menuitem"
@@ -415,7 +416,7 @@ export default function Home() {
                         Here
                       </span>
                     ) : null}
-                  </a>
+                  </Link>
                 ))}
               </div>
             ) : null}
