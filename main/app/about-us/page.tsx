@@ -86,15 +86,8 @@ export default function AboutUsPage() {
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#eef7ff] px-4 py-4 sm:px-6 sm:py-6">
-      <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(124,160,186,0.16)_31px,rgba(124,160,186,0.16)_32px)]" />
-      <div className="pointer-events-none absolute inset-y-0 left-[11%] w-[2px] bg-[rgba(152,186,214,0.36)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(126,166,196,0.12)_0.8px,transparent_0.8px)] [background-size:18px_18px]" />
-      <div className="pointer-events-none absolute left-8 top-28 rotate-[-10deg] text-[1.6rem] text-[#9bbfe0]">✿</div>
-      <div className="pointer-events-none absolute right-10 top-40 rotate-[8deg] text-[1.1rem] text-[#87a9bf]">❀</div>
-      <div className="pointer-events-none absolute bottom-24 right-14 rotate-[-8deg] text-[1.3rem] text-[#b3d3ec]">✿</div>
-
-      <div className="relative mx-auto min-h-[92vh] max-w-7xl px-2 py-2 sm:px-4 sm:py-3">
+    <main className="min-h-screen bg-[#eef7ff] px-4 py-4 sm:px-6 sm:py-6">
+      <div className="mx-auto min-h-[92vh] max-w-7xl px-2 py-2 sm:px-4 sm:py-3">
         <header className="flex items-center justify-between gap-6 px-3 py-2 sm:px-4">
           <div className="flex items-center gap-4 sm:gap-5">
             <div className="relative h-14 w-14 overflow-hidden rounded-full border border-[#bfd8eb] bg-[radial-gradient(circle_at_30%_30%,#ffffff_0%,#dcedff_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] sm:h-16 sm:w-16">
@@ -162,18 +155,33 @@ export default function AboutUsPage() {
           </div>
         </header>
 
-        <section className="mt-10 sm:mt-14">
-          <h1 className="text-center font-[family-name:var(--font-display)] text-[2.2rem] text-[#3f6783] sm:text-[2.8rem]">
-            About Us
-          </h1>
+        <section className="relative mt-10 overflow-hidden rounded-[2.3rem] border border-[#cfe3f4] bg-[#f6fbff] px-5 py-8 shadow-[0_18px_42px_rgba(188,214,233,0.18)] sm:mt-14 sm:px-8 sm:py-10">
+          <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(124,160,186,0.15)_31px,rgba(124,160,186,0.15)_32px)]" />
+          <div className="pointer-events-none absolute inset-y-0 left-[9%] w-[2px] bg-[rgba(152,186,214,0.34)]" />
+          <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(126,166,196,0.12)_0.8px,transparent_0.8px)] [background-size:18px_18px]" />
+          <div className="pointer-events-none absolute left-5 top-8 rotate-[-10deg] text-[1.2rem] text-[#9bbfe0]">✿</div>
+          <div className="pointer-events-none absolute right-8 top-14 rotate-[8deg] text-[1rem] text-[#87a9bf]">❀</div>
+          <div className="pointer-events-none absolute bottom-8 right-10 rotate-[-8deg] text-[1.2rem] text-[#b3d3ec]">✿</div>
+
+          <div className="relative">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.26em] text-[#7ea6c4]">
+              Journal Page
+            </p>
+            <h1 className="mt-2 text-center font-[family-name:var(--font-display)] text-[2.2rem] text-[#3f6783] sm:text-[2.8rem]">
+              About Us
+            </h1>
+          </div>
 
           <div className="mt-10 grid gap-8 lg:grid-cols-3">
             {people.map((person) => (
               <article
                 key={person.name}
-                className="relative rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 text-center shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
+                className="relative rounded-[2rem] border border-[rgba(162,198,224,0.3)] bg-[#fdfefe] p-6 text-center shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
               >
                 <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
+                <div className="mb-4 text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8caec7]">
+                  Profile Note
+                </div>
                 <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-[#d8ecff] shadow-[0_12px_24px_rgba(176,208,230,0.2)]">
                   <Image
                     src={person.imageSrc}
@@ -196,7 +204,10 @@ export default function AboutUsPage() {
 
           <div className="relative mt-12 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:mt-14 sm:p-8">
             <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
-            <h2 className="text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
+              Quick Answers
+            </p>
+            <h2 className="mt-2 text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
               Q&amp;A
             </h2>
 

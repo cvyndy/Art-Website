@@ -423,61 +423,78 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="mt-10 sm:mt-14">
-          <h1 className="mb-8 min-h-[2.8rem] text-center font-[family-name:var(--font-display)] text-[2rem] leading-none text-[#3f6783] sm:mb-10 sm:min-h-[3.4rem] sm:text-[2.5rem]">
-            {typedWelcome}
-          </h1>
+        <section className="relative mt-10 overflow-hidden rounded-[2.3rem] border border-[#cfe3f4] bg-[#f6fbff] px-5 py-8 shadow-[0_18px_42px_rgba(188,214,233,0.18)] sm:mt-14 sm:px-8 sm:py-10">
+          <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(124,160,186,0.15)_31px,rgba(124,160,186,0.15)_32px)]" />
+          <div className="pointer-events-none absolute inset-y-0 left-[9%] w-[2px] bg-[rgba(152,186,214,0.34)]" />
+          <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(126,166,196,0.12)_0.8px,transparent_0.8px)] [background-size:18px_18px]" />
+          <div className="pointer-events-none absolute left-5 top-8 rotate-[-10deg] text-[1.2rem] text-[#9bbfe0]">✿</div>
+          <div className="pointer-events-none absolute right-8 top-14 rotate-[8deg] text-[1rem] text-[#87a9bf]">❀</div>
+          <div className="pointer-events-none absolute bottom-8 right-10 rotate-[-8deg] text-[1.2rem] text-[#b3d3ec]">✿</div>
 
-          <div className="space-y-10 sm:space-y-12">
-          {showcases.map((showcase, index) => {
-            const imageOnLeft = index % 2 === 0;
-            const textOnRight = imageOnLeft;
+          <div className="relative">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.26em] text-[#7ea6c4]">
+              Journal Page
+            </p>
+            <h1 className="mb-8 mt-2 min-h-[2.8rem] text-center font-[family-name:var(--font-display)] text-[2rem] leading-none text-[#3f6783] sm:mb-10 sm:min-h-[3.4rem] sm:text-[2.5rem]">
+              {typedWelcome}
+            </h1>
+          </div>
 
-            return (
-              <article
-                key={showcase.title}
-                className="grid items-center gap-8 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-white/40 p-5 backdrop-blur-sm sm:p-7 lg:grid-cols-2 lg:gap-12"
-              >
-                <div
-                  className={`flex flex-col space-y-4 ${
-                    textOnRight
-                      ? "lg:order-2 lg:items-start lg:text-left"
-                      : "lg:order-1 lg:items-end lg:justify-self-end lg:text-right"
-                  }`}
+          <div className="relative space-y-10 sm:space-y-12">
+            {showcases.map((showcase, index) => {
+              const imageOnLeft = index % 2 === 0;
+              const textOnRight = imageOnLeft;
+
+              return (
+                <article
+                  key={showcase.title}
+                  className="relative grid items-center gap-8 rounded-[2rem] border border-[rgba(162,198,224,0.3)] bg-[#fdfefe] p-5 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:p-7 lg:grid-cols-2 lg:gap-12"
                 >
-                  <h2
-                    className={`max-w-md font-[family-name:var(--font-display)] text-[1.7rem] leading-snug text-[#3f6783] sm:text-[2rem] ${
-                      textOnRight ? "" : "lg:ml-auto"
-                    }`}
-                  >
-                    {showcase.title}
-                  </h2>
-                  <p
-                    className={`max-w-md text-base leading-8 text-[#5f798e] sm:text-lg ${
-                      textOnRight ? "" : "lg:ml-auto"
-                    }`}
-                  >
-                    {showcase.description}
-                  </p>
-                  <a
-                    href="#"
-                    className="inline-flex rounded-md border border-[#a9cde7] bg-[#dcefff] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-[#2c5068] transition hover:bg-[#d2e9ff]"
-                  >
-                    {showcase.button}
-                  </a>
-                </div>
+                  <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
 
-                <div className={imageOnLeft ? "lg:order-1" : "lg:order-2"}>
-                  <RevealOnView>
-                    <SwipeCarousel
-                      slides={showcase.slides}
-                      label={showcase.title}
-                    />
-                  </RevealOnView>
-                </div>
-              </article>
-            );
-          })}
+                  <div
+                    className={`flex flex-col space-y-4 ${
+                      textOnRight
+                        ? "lg:order-2 lg:items-start lg:text-left"
+                        : "lg:order-1 lg:items-end lg:justify-self-end lg:text-right"
+                    }`}
+                  >
+                    <div className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8caec7]">
+                      Collection Note
+                    </div>
+                    <h2
+                      className={`max-w-md font-[family-name:var(--font-display)] text-[1.7rem] leading-snug text-[#3f6783] sm:text-[2rem] ${
+                        textOnRight ? "" : "lg:ml-auto"
+                      }`}
+                    >
+                      {showcase.title}
+                    </h2>
+                    <p
+                      className={`max-w-md text-base leading-8 text-[#5f798e] sm:text-lg ${
+                        textOnRight ? "" : "lg:ml-auto"
+                      }`}
+                    >
+                      {showcase.description}
+                    </p>
+                    <a
+                      href="#"
+                      className="inline-flex rounded-md border border-[#a9cde7] bg-[#dcefff] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-[#2c5068] transition hover:bg-[#d2e9ff]"
+                    >
+                      {showcase.button}
+                    </a>
+                  </div>
+
+                  <div className={imageOnLeft ? "lg:order-1" : "lg:order-2"}>
+                    <RevealOnView>
+                      <SwipeCarousel
+                        slides={showcase.slides}
+                        label={showcase.title}
+                      />
+                    </RevealOnView>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
       </div>
