@@ -4,6 +4,48 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+function RevealOnView({ children }: { children: React.ReactNode }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const node = containerRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.2,
+      },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`transition-all duration-700 ease-out ${
+        isVisible
+          ? "translate-x-0 opacity-100"
+          : "translate-x-10 opacity-0"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
+
 const people = [
   {
     name: "Ashley DUCK Lin",
@@ -172,7 +214,8 @@ export default function AboutUsPage() {
             </h1>
           </div>
 
-          <div className="mt-10 grid gap-8 lg:grid-cols-3">
+          <RevealOnView>
+            <div className="mt-10 grid gap-8 lg:grid-cols-3">
             {people.map((person) => (
               <article
                 key={person.name}
@@ -200,9 +243,11 @@ export default function AboutUsPage() {
                 </p>
               </article>
             ))}
-          </div>
+            </div>
+          </RevealOnView>
 
-          <div className="relative mt-12 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:mt-14 sm:p-8">
+          <RevealOnView>
+            <div className="relative mt-12 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:mt-14 sm:p-8">
             <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
             <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
               Quick Answers
@@ -226,7 +271,8 @@ export default function AboutUsPage() {
                 </article>
               ))}
             </div>
-          </div>
+            </div>
+          </RevealOnView>
         </section>
       </div>
     </main>

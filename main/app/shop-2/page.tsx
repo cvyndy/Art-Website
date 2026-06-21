@@ -4,6 +4,48 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+function RevealOnView({ children }: { children: React.ReactNode }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const node = containerRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.2,
+      },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`transition-all duration-700 ease-out ${
+        isVisible
+          ? "translate-x-0 opacity-100"
+          : "translate-x-10 opacity-0"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
+
 type Commission = {
   name: string;
   price: string;
@@ -119,66 +161,68 @@ export default function ShopTwoPage() {
     note: string,
     items: Commission[],
   ) => (
-    <div className="relative mt-10 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:p-8">
-      <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
-      <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
-        {subtitle}
-      </p>
-      <h2 className="mt-2 text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
-        {title}
-      </h2>
-      <p className="mx-auto mt-3 max-w-2xl text-center text-base leading-7 text-[#5f798e]">
-        {note}
-      </p>
+    <RevealOnView>
+      <div className="relative mt-10 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:p-8">
+        <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
+        <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
+          {subtitle}
+        </p>
+        <h2 className="mt-2 text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
+          {title}
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-center text-base leading-7 text-[#5f798e]">
+          {note}
+        </p>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {items.map((item) => (
-          <article
-            key={item.name}
-            className="relative rounded-[2rem] border border-[rgba(162,198,224,0.3)] bg-[#fdfefe] p-5 shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
-          >
-            <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
-            <div className="mb-4 flex items-center justify-end gap-3 pt-3">
-              <span className="rounded-full bg-[#e8f4ff] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#5a84a0]">
-                {item.status}
-              </span>
-            </div>
-
-            {item.imageSrc ? (
-              <div className="relative aspect-square overflow-hidden rounded-[1.5rem] border border-[#d9eaf7] bg-white">
-                <Image
-                  src={item.imageSrc}
-                  alt={item.imageAlt ?? item.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="flex aspect-square items-center justify-center rounded-[1.5rem] border border-dashed border-[#c8dcec] bg-[#f8fcff] text-center text-sm leading-6 text-[#648095]">
-                Add a product image in `public/`
-              </div>
-            )}
-
-            <h3 className="mt-5 font-[family-name:var(--font-display)] text-[1.6rem] leading-tight text-[#3f6783]">
-              {item.name}
-            </h3>
-            <p className="mt-2 text-lg font-semibold text-[#2c5068]">
-              {item.price}
-            </p>
-            <p className="mt-3 text-base leading-7 text-[#5f798e]">
-              {item.description}
-            </p>
-
-            <button
-              type="button"
-              className="mt-5 inline-flex rounded-md border border-[#a9cde7] bg-[#dcefff] px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-[#2c5068] transition hover:bg-[#d2e9ff]"
+        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {items.map((item) => (
+            <article
+              key={item.name}
+              className="relative rounded-[2rem] border border-[rgba(162,198,224,0.3)] bg-[#fdfefe] p-5 shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
             >
-              Check it out
-            </button>
-          </article>
-        ))}
+              <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
+              <div className="mb-4 flex items-center justify-end gap-3 pt-3">
+                <span className="rounded-full bg-[#e8f4ff] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#5a84a0]">
+                  {item.status}
+                </span>
+              </div>
+
+              {item.imageSrc ? (
+                <div className="relative aspect-square overflow-hidden rounded-[1.5rem] border border-[#d9eaf7] bg-white">
+                  <Image
+                    src={item.imageSrc}
+                    alt={item.imageAlt ?? item.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex aspect-square items-center justify-center rounded-[1.5rem] border border-dashed border-[#c8dcec] bg-[#f8fcff] text-center text-sm leading-6 text-[#648095]">
+                  Add a product image in `public/`
+                </div>
+              )}
+
+              <h3 className="mt-5 font-[family-name:var(--font-display)] text-[1.6rem] leading-tight text-[#3f6783]">
+                {item.name}
+              </h3>
+              <p className="mt-2 text-lg font-semibold text-[#2c5068]">
+                {item.price}
+              </p>
+              <p className="mt-3 text-base leading-7 text-[#5f798e]">
+                {item.description}
+              </p>
+
+              <button
+                type="button"
+                className="mt-5 inline-flex rounded-md border border-[#a9cde7] bg-[#dcefff] px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-[#2c5068] transition hover:bg-[#d2e9ff]"
+              >
+                Check it out
+              </button>
+            </article>
+          ))}
+        </div>
       </div>
-    </div>
+    </RevealOnView>
   );
 
   return (
@@ -272,7 +316,8 @@ export default function ShopTwoPage() {
             </p>
           </div>
 
-          <div className="relative mt-10 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:p-8">
+          <RevealOnView>
+            <div className="relative mt-10 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:p-8">
             <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
             <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
               How It Works
@@ -294,7 +339,8 @@ export default function ShopTwoPage() {
                 </div>
               ))}
             </div>
-          </div>
+            </div>
+          </RevealOnView>
 
           {renderCommissionSection(
             "Character Commissions",
