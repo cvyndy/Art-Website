@@ -4,62 +4,86 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const people = [
+type Product = {
+  name: string;
+  price: string;
+  description: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  status: string;
+};
+
+// Add or remove products here to grow the page.
+// Use `imageSrc` with files from `public/`, for example: "/duck.jpg"
+const pipeCleanerBouquets: Product[] = [
   {
-    name: "Ashley DUCK Lin",
+    name: "Sunny Bloom Bouquet",
+    price: "$28",
+    description:
+      "A soft pastel bouquet with playful color and a handmade gift-shop feel.",
+    imageSrc: "/ducky.jpg",
+    imageAlt: "Pipe cleaner flower bouquet",
+    status: "Made to order",
+  },
+  {
+    name: "Blue Skies Bouquet",
+    price: "$32",
+    description:
+      "A fuller bouquet with airy blue tones and a sweet, cheerful silhouette.",
+    imageSrc: "/otter2.jpg",
+    imageAlt: "Blue pipe cleaner bouquet",
+    status: "Low stock",
+  },
+  {
+    name: "Mini Thank You Bouquet",
+    price: "$16",
+    description:
+      "A smaller bouquet meant for quick gifts, desk decor, or add-on orders.",
+    imageSrc: "/birb3.jpg",
+    imageAlt: "Mini pipe cleaner bouquet",
+    status: "Ready to ship",
+  },
+];
+
+const photoCards: Product[] = [
+  {
+    name: "Duck Selfie Photo Card",
+    price: "$8",
+    description:
+      "A glossy photo card with bright duck energy for journaling, gifts, or display.",
     imageSrc: "/Duck selfie.jpg",
-    imageAlt: "Ashley profile photo",
-    summary:
-      "Ashley brings the duck energy: bright, silly, and always the first one to turn a random idea into something weirdly adorable.",
+    imageAlt: "Duck selfie photo card",
+    status: "New",
   },
   {
-    name: "Nicole OTTER Mendo",
+    name: "Otter Cozy Photo Card",
+    price: "$8",
+    description:
+      "A soft little otter portrait card with calm tones and cozy character.",
     imageSrc: "/otter.jpg",
-    imageAlt: "Nicole profile photo",
-    summary:
-      "Nicole is the cozy one of the group, adding soft details, playful chaos, and the kind of charm that makes every section feel more alive.",
+    imageAlt: "Otter photo card",
+    status: "Ready to ship",
   },
   {
-    name: "Cindy BIRB Vuong",
+    name: "Birb Drama Photo Card",
+    price: "$8",
+    description:
+      "A tiny main-character bird card that feels cute, dramatic, and easy to collect.",
     imageSrc: "/birb1.jpg",
-    imageAlt: "Cindy profile photo",
-    summary:
-      "Cindy keeps everything light and lovable, mixing tiny dramatic flair with the sweet little finishing touches that pull the whole page together.",
+    imageAlt: "Bird photo card",
+    status: "Ready to ship",
   },
 ];
 
 const menuItems = [
   { label: "Welcome", href: "/", current: false },
-  { label: "Shop 1", href: "/shop-1", current: false },
+  { label: "Shop 1", href: "/shop-1", current: true },
   { label: "Shop 2", href: "/shop-2", current: false },
   { label: "Shop 3", href: "#", current: false },
-  { label: "About Us", href: "/about-us", current: true },
+  { label: "About Us", href: "/about-us", current: false },
 ];
 
-const faqItems = [
-  {
-    question: "Do you take custom crochet orders?",
-    answer:
-      "Yes, we do. If you have a color palette, animal, or gift idea in mind, we can work with you to make something cute and personal.",
-  },
-  {
-    question: "How long does it take to make an order?",
-    answer:
-      "It depends on the size and detail, but most small crochet pieces take around one to two weeks before they are ready to ship.",
-  },
-  {
-    question: "Can I request specific colors?",
-    answer:
-      "Absolutely. We love matching favorite colors, themes, and gift vibes so each piece feels a little more special.",
-  },
-  {
-    question: "How should I care for crochet items?",
-    answer:
-      "We love making couple-themed crafts because they feel personal, goofy, and sweet all at once. A handmade piece can hold little inside jokes, favorite colors, and shared memories, which makes it feel more special than just buying something random off a shelf.",
-  },
-];
-
-export default function AboutUsPage() {
+export default function ShopOnePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -84,6 +108,74 @@ export default function AboutUsPage() {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  const renderProductSection = (
+    title: string,
+    subtitle: string,
+    note: string,
+    items: Product[],
+  ) => (
+    <div className="relative mt-10 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:p-8">
+      <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
+        {subtitle}
+      </p>
+      <h2 className="mt-2 text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
+        {title}
+      </h2>
+      <p className="mx-auto mt-3 max-w-2xl text-center text-base leading-7 text-[#5f798e]">
+        {note}
+      </p>
+
+      <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {items.map((product) => (
+          <article
+            key={product.name}
+            className="relative rounded-[2rem] border border-[rgba(162,198,224,0.3)] bg-[#fdfefe] p-5 shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
+          >
+            <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
+            <div className="mb-4 flex items-center justify-end gap-3 pt-3">
+              <span className="rounded-full bg-[#e8f4ff] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#5a84a0]">
+                {product.status}
+              </span>
+            </div>
+
+            {product.imageSrc ? (
+              <div className="relative aspect-square overflow-hidden rounded-[1.5rem] border border-[#d9eaf7] bg-white">
+                <Image
+                  src={product.imageSrc}
+                  alt={product.imageAlt ?? product.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="flex aspect-square items-center justify-center rounded-[1.5rem] border border-dashed border-[#c8dcec] bg-[#f8fcff] text-center text-sm leading-6 text-[#648095]">
+                Add a product image in `public/`
+              </div>
+            )}
+
+            <h3 className="mt-5 font-[family-name:var(--font-display)] text-[1.6rem] leading-tight text-[#3f6783]">
+              {product.name}
+            </h3>
+            <p className="mt-2 text-lg font-semibold text-[#2c5068]">
+              {product.price}
+            </p>
+            <p className="mt-3 text-base leading-7 text-[#5f798e]">
+              {product.description}
+            </p>
+
+            <button
+              type="button"
+              className="mt-5 inline-flex rounded-md border border-[#a9cde7] bg-[#dcefff] px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-[#2c5068] transition hover:bg-[#d2e9ff]"
+            >
+              Check it out
+            </button>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <main className="min-h-screen bg-[#eef7ff] px-4 py-4 sm:px-6 sm:py-6">
@@ -165,68 +257,26 @@ export default function AboutUsPage() {
 
           <div className="relative">
             <p className="text-center text-xs font-semibold uppercase tracking-[0.26em] text-[#7ea6c4]">
-              Journal Page
+              Shop Page
             </p>
             <h1 className="mt-2 text-center font-[family-name:var(--font-display)] text-[2.2rem] text-[#3f6783] sm:text-[2.8rem]">
-              About Us
+              Ashley&apos;s Shop
             </h1>
           </div>
 
-          <div className="mt-10 grid gap-8 lg:grid-cols-3">
-            {people.map((person) => (
-              <article
-                key={person.name}
-                className="relative rounded-[2rem] border border-[rgba(162,198,224,0.3)] bg-[#fdfefe] p-6 text-center shadow-[0_14px_30px_rgba(188,214,233,0.16)]"
-              >
-                <div className="absolute left-1/2 top-3 h-5 w-16 -translate-x-1/2 rotate-[-3deg] rounded-sm bg-[rgba(191,214,227,0.55)]" />
-                <div className="mb-4 text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8caec7]">
-                  Profile Note
-                </div>
-                <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-[#d8ecff] shadow-[0_12px_24px_rgba(176,208,230,0.2)]">
-                  <Image
-                    src={person.imageSrc}
-                    alt={person.imageAlt}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+          {renderProductSection(
+            "Flowers you can choose from",
+            "Bouquet Board",
+            "Handmade bouquet listings live here. Add as many styles, sizes, or colorways as you want in the bouquet array.",
+            pipeCleanerBouquets,
+          )}
 
-                <h2 className="mt-5 font-[family-name:var(--font-display)] text-[1.6rem] leading-tight text-[#3f6783]">
-                  {person.name}
-                </h2>
-
-                <p className="mt-3 text-base leading-8 text-[#5f798e]">
-                  {person.summary}
-                </p>
-              </article>
-            ))}
-          </div>
-
-          <div className="relative mt-12 rounded-[2rem] border border-[rgba(162,198,224,0.28)] bg-[#fdfefe] p-6 shadow-[0_14px_30px_rgba(188,214,233,0.16)] sm:mt-14 sm:p-8">
-            <div className="absolute right-8 top-4 h-5 w-16 rotate-[4deg] rounded-sm bg-[rgba(207,232,255,0.7)]" />
-            <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#8caec7]">
-              Quick Answers
-            </p>
-            <h2 className="mt-2 text-center font-[family-name:var(--font-display)] text-[1.8rem] text-[#3f6783] sm:text-[2.2rem]">
-              Q&amp;A
-            </h2>
-
-            <div className="mt-6 space-y-4">
-              {faqItems.map((item) => (
-                <article
-                  key={item.question}
-                  className="rounded-[1.5rem] border border-[#d5e8f6] bg-[#f9fcff] px-5 py-4"
-                >
-                  <h3 className="text-lg font-semibold text-[#2c5068]">
-                    {item.question}
-                  </h3>
-                  <p className="mt-2 text-base leading-7 text-[#5f798e]">
-                    {item.answer}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
+          {renderProductSection(
+            "Photo Cards",
+            "Card Board",
+            "Use this section for collectible photo cards, small card packs, or themed drops with the same layout.",
+            photoCards,
+          )}
         </section>
       </div>
     </main>

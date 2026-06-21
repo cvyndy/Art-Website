@@ -248,8 +248,6 @@ export default function Home() {
   useEffect(() => {
     let currentIndex = 0;
 
-    setTypedWelcome("");
-
     const interval = window.setInterval(() => {
       currentIndex += 1;
       setTypedWelcome(welcomeText.slice(0, currentIndex));
@@ -347,8 +345,8 @@ export default function Home() {
 
   const menuItems = [
     { label: "Welcome", href: "/", current: true },
-    { label: "Shop 1", href: "#" },
-    { label: "Shop 2", href: "#" },
+    { label: "Shop 1", href: "/shop-1" },
+    { label: "Shop 2", href: "/shop-2" },
     { label: "Shop 3", href: "#" },
     { label: "About Us", href: "/about-us" },
   ];
